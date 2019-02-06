@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Self Assessment Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Self Assessment of Property Tax Form</h1>
+<form action="#" th:action="@{/payTax}" th:object="${selfAssessmentForm}" method="post">
+    Year of Assessment
+    <input type="text" th:field="*{yearOfAssessment}" id="yearOfAssessment"><br/><br/>
+    Name of the Owner
+    <input type="text" th:field="*{owner}" id="owner"><br/><br/>
+    Email
+    <input type="text" th:field="*{email}" id="email"><br/><br/>
+    Address of the Property
+    <input type="text" th:field="*{propertyAddress}" id="propertyAddress"><br/><br/>
+    Zonal Classification
+    <select class="form-control" th:field="*{zonalClassification}"  id="zonalClassification">
+        <option value="">Select Zone</option>
+        <option th:each="zone : ${zones}" th:value="${zone.zone}" th:text="${zone.zone}"></option>
+    </select><br/><br/>
+    Description of the Property
+    <select class="form-control" th:field="*{propertyDescription}"  id="propertyDescription">
+        <option value="">Select Property Type</option>
+        <option th:each="property : ${propertyTypes}" th:value="${property.propertyType}" th:text="${property.propertyType}"></option>
+    </select><br/><br/>
+    Status
+    <select class="form-control" th:field="*{status}"  id="status">
+        <option value="">Select Status Type</option>
+        <option th:each="status : ${statusTypes}" th:value="${status.status}" th:text="${status.status}"></option>
+    </select><br/><br/>
+    Building constructed year
+    <input type="text" th:field="*{buildingConstructionYear}" id="buildingConstructionYear"><br/><br/>
+    Built up area (Square feet)
+    <input type="text" th:field="*{buildUpArea}" id="buildUpArea"><br/><br/>
+    Total Tax Payable
+    <input type="text" th:field="*{totalTaxPayable}" id="totalTaxPayable" readonly onclick="callTaxFunction()"><br/><br/>
+    <input type="button" onclick="location.href='/'" value="Cancel">&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="Pay Tax">
+</form>
+<script>
+function callTaxFunction() {
+
+  var formData = {
+  zonalClassification : $("#zonalClassification").val(),
+  propertyDescription :  $("#propertyDescription").val(),
+  status :  $("#status").val(),
+  buildingConstructionYear :  $("#buildingConstructionYear").val(),
+  buildUpArea :  $("#buildUpArea").val()
+  }
+
+  $.ajax({
+      type : "POST",
+      contentType : "application/json",
+      url: "/calculateTax",
+      data : JSON.stringify(formData),
+      dataType : 'json',
+      success :function(result) {
+      payableTax = result;
+      document.getElementById("totalTaxPayable").value = payableTax;
+      }
+  });
+}
+</script>
+</body>
+</html>

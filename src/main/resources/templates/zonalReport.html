@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zonal Report</title>
+</head>
+<body>
+<h1>Zonal Report</h1>
+<div th:each="year : ${yearsList}">
+    <tr>Zone wise Collection of Property tax of the year <span th:text="${year}"></span>
+        <table border=1>
+            <tr>
+                <th>Zone Name</th>
+                <th>Property Type</th>
+                <th>Amount Collected</th>
+            </tr>
+        <div th:each="zonalReport : ${zonalReportList}">
+            <div th:if="${year == zonalReport.yearOfAssessment}">
+                    <tr>
+                        <td th:text="${zonalReport.zonalClassification}"></td>
+                        <td th:text="${zonalReport.status}"></td>
+                        <td th:text="${zonalReport.amountCollected}"></td>
+                    </tr>
+
+            </div>
+        </div>
+        </table>
+        <br/>
+        <br/>
+    </tr>
+</div>
+</body>
+</html>
