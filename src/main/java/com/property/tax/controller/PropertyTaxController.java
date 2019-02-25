@@ -1,8 +1,11 @@
 package com.property.tax.controller;
 
+import com.property.tax.TaxApplication;
 import com.property.tax.model.SelfAssessmentForm;
 import com.property.tax.model.ZonalReport;
 import com.property.tax.service.PropertyTaxService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +25,11 @@ public class PropertyTaxController {
 
     @Autowired
     PropertyTaxService propertyTaxService;
+    private static final Logger logger = LogManager.getLogger(PropertyTaxController.class);
 
     @RequestMapping("/selfAssessment")
     public String selfAssessment(Model model){
+        logger.info("Inside  selfAssessment method");
         SelfAssessmentForm selfAssessmentForm = new SelfAssessmentForm();
         model.addAttribute("selfAssessmentForm", selfAssessmentForm);
         model.addAttribute("zones", propertyTaxService.getAllZones());
@@ -35,6 +40,7 @@ public class PropertyTaxController {
 
     @RequestMapping("/zonalReport")
     public String zonalReport(Model model){
+        logger.info("Inside  zonalReport method");
         List<ZonalReport> zonalReportList = propertyTaxService.getZonalReport();
         List<Integer> yearsList =  zonalReportList.stream()
                                 .map(ZonalReport::getYearOfAssessment)
@@ -48,11 +54,12 @@ public class PropertyTaxController {
 
     @RequestMapping(value = "/calculateTax", method = RequestMethod.POST)
     public ResponseEntity calculateTax(@RequestBody SelfAssessmentForm selfAssessmentForm){
-        System.out.println("The value of zonal class -->"+selfAssessmentForm.getZonalClassification());
-        System.out.println("The value property type -->"+selfAssessmentForm.getPropertyDescription());
-        System.out.println("The value status -->"+selfAssessmentForm.getStatus());
-        System.out.println("The value construction year -->"+selfAssessmentForm.getBuildingConstructionYear());
-        System.out.println("The value buildup area -->"+selfAssessmentForm.getBuildUpArea());
+
+        logger.info("The value of zonal class -->"+selfAssessmentForm.getZonalClassification());
+        logger.info("The value property type -->"+selfAssessmentForm.getPropertyDescription());
+        logger.info("The value status -->"+selfAssessmentForm.getStatus());
+        logger.info("The value construction year -->"+selfAssessmentForm.getBuildingConstructionYear());
+        logger.info("The value buildup area -->"+selfAssessmentForm.getBuildUpArea());
         double payableTax = propertyTaxService.calculatePayableTax(selfAssessmentForm);
         return new ResponseEntity(payableTax, HttpStatus.OK);
     }
