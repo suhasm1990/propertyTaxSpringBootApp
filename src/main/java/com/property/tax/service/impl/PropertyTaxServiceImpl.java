@@ -1,8 +1,11 @@
 package com.property.tax.service.impl;
 
+import com.property.tax.controller.PropertyTaxController;
 import com.property.tax.dao.*;
 import com.property.tax.model.*;
 import com.property.tax.service.PropertyTaxService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,7 @@ public class PropertyTaxServiceImpl implements PropertyTaxService {
     @Autowired
     ResedentialPropertyTaxRepository resedentialPropertyTaxRepository;
 
+    private static final Logger logger = LogManager.getLogger(PropertyTaxServiceImpl.class);
 
     @Override
     public Iterable<PropertyType> getAllPropertyType() {
@@ -95,13 +99,13 @@ public class PropertyTaxServiceImpl implements PropertyTaxService {
         double total4 = (total3*24)/100;
         double total5 = total3+total4;
 
-        System.out.println("UnitArea value-->"+unitAreaValue);
-        System.out.println("DepreciationValue value-->"+depreciationValue);
-        System.out.println("Total1 value-->"+total1);
-        System.out.println("Total2 value-->"+total2);
-        System.out.println("Total3 value-->"+total3);
-        System.out.println("Total4 value-->"+total4);
-        System.out.println("Total5 value-->"+total5);
+        logger.info("UnitArea value-->"+unitAreaValue);
+        logger.info("DepreciationValue value-->"+depreciationValue);
+        logger.info("Total1 value-->"+total1);
+        logger.info("Total2 value-->"+total2);
+        logger.info("Total3 value-->"+total3);
+        logger.info("Total4 value-->"+total4);
+        logger.info("Total5 value-->"+total5);
 
         return total5;
     }
