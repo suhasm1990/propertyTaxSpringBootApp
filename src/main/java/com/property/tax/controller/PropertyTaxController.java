@@ -12,11 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +24,16 @@ public class PropertyTaxController {
     @Autowired
     PropertyTaxService propertyTaxService;
     private static final Logger logger = LogManager.getLogger(PropertyTaxController.class);
+
+    @RequestMapping("/")
+    public String getIndexPage() {
+        return "index";
+    }
+
+    @RequestMapping("/international")
+    public String getInternationalPage() {
+        return "index";
+    }
 
     @RequestMapping("/selfAssessment")
     public String selfAssessment(Model model){
@@ -65,7 +73,13 @@ public class PropertyTaxController {
     }
 
     @RequestMapping("/payTax")
-    public String payTax(SelfAssessmentForm selfAssessmentForm, BindingResult result, Model model){
+    public String payTax(@Valid SelfAssessmentForm selfAssessmentForm, BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("zones", propertyTaxService.getAllZones());
+            model.addAttribute("propertyTypes", propertyTaxService.getAllPropertyType());
+            model.addAttribute("statusTypes", propertyTaxService.getAllStatus());
+            return "selfAssessment";
+        }
         propertyTaxService.saveSelfAssessment(selfAssessmentForm);
         return "index";
     }

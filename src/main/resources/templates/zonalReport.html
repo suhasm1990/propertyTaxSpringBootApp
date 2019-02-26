@@ -5,14 +5,14 @@
     <title>Zonal Report</title>
 </head>
 <body>
-<h1>Zonal Report</h1>
+<h1 th:text="#{zonalReport}"></h1>
 <div th:each="year : ${yearsList}">
-    <tr>Zone wise Collection of Property tax of the year <span th:text="${year}"></span>
+    <tr><span th:text="#{zoneWiseCollectionMessage}"></span><span th:text="${year}"></span>
         <table border=1>
             <tr>
-                <th>Zone Name</th>
-                <th>Property Type</th>
-                <th>Amount Collected</th>
+                <th th:text="#{zoneName}"></th>
+                <th th:text="#{propertyType}"></th>
+                <th th:text="#{amountCollected}"></th>
             </tr>
         <div th:each="zonalReport : ${zonalReportList}">
             <div th:if="${year == zonalReport.yearOfAssessment}">

@@ -6,39 +6,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<h1>Self Assessment of Property Tax Form</h1>
+<h1 th:text="#{selfAssessmentFormHeader}"></h1>
 <form action="#" th:action="@{/payTax}" th:object="${selfAssessmentForm}" method="post">
-    Year of Assessment
-    <input type="text" th:field="*{yearOfAssessment}" id="yearOfAssessment"><br/><br/>
-    Name of the Owner
-    <input type="text" th:field="*{owner}" id="owner"><br/><br/>
-    Email
-    <input type="text" th:field="*{email}" id="email"><br/><br/>
-    Address of the Property
-    <input type="text" th:field="*{propertyAddress}" id="propertyAddress"><br/><br/>
-    Zonal Classification
+    <span th:text="#{yearOfAssessment}"></span>
+    <input type="text" th:field="*{yearOfAssessment}" id="yearOfAssessment"><span th:if="${#fields.hasErrors('yearOfAssessment')}" th:errors="*{yearOfAssessment}"></span><br/><br/>
+    <span th:text="#{nameOfTheOwner}"></span>
+    <input type="text" th:field="*{owner}" id="owner"><span th:if="${#fields.hasErrors('owner')}" th:errors="*{owner}"></span><br/><br/>
+    <span th:text="#{email}"></span>
+    <input type="text" th:field="*{email}" id="email"><span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span><br/><br/>
+    <span th:text="#{addressOfTheProperty}"></span>
+    <input type="text" th:field="*{propertyAddress}" id="propertyAddress"><span th:if="${#fields.hasErrors('propertyAddress')}" th:errors="*{propertyAddress}"></span><br/><br/>
+    <span th:text="#{zonalClassification}"></span>
     <select class="form-control" th:field="*{zonalClassification}"  id="zonalClassification">
         <option value="">Select Zone</option>
         <option th:each="zone : ${zones}" th:value="${zone.zone}" th:text="${zone.zone}"></option>
-    </select><br/><br/>
-    Description of the Property
+    </select><span th:if="${#fields.hasErrors('zonalClassification')}" th:errors="*{zonalClassification}"></span><br/><br/>
+    <span th:text="#{descriptionOfTheProperty}"></span>
     <select class="form-control" th:field="*{propertyDescription}"  id="propertyDescription">
         <option value="">Select Property Type</option>
         <option th:each="property : ${propertyTypes}" th:value="${property.propertyType}" th:text="${property.propertyType}"></option>
-    </select><br/><br/>
-    Status
+    </select><span th:if="${#fields.hasErrors('propertyDescription')}" th:errors="*{propertyDescription}"></span><br/><br/>
+    <span th:text="#{status}"></span>
     <select class="form-control" th:field="*{status}"  id="status">
         <option value="">Select Status Type</option>
         <option th:each="status : ${statusTypes}" th:value="${status.status}" th:text="${status.status}"></option>
-    </select><br/><br/>
-    Building constructed year
-    <input type="text" th:field="*{buildingConstructionYear}" id="buildingConstructionYear"><br/><br/>
-    Built up area (Square feet)
-    <input type="text" th:field="*{buildUpArea}" id="buildUpArea"><br/><br/>
-    Total Tax Payable
+    </select><span th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span><br/><br/>
+    <span th:text="#{buildingConstructionYear}"></span>
+    <input type="text" th:field="*{buildingConstructionYear}" id="buildingConstructionYear"><span th:if="${#fields.hasErrors('buildingConstructionYear')}" th:errors="*{buildingConstructionYear}"></span><br/><br/>
+    <span th:text="#{builtUpArea}"></span>
+    <input type="text" th:field="*{buildUpArea}" id="buildUpArea"><span th:if="${#fields.hasErrors('buildUpArea')}" th:errors="*{buildUpArea}"></span><br/><br/>
+    <span th:text="#{totalTaxPayable}"></span>
     <input type="text" th:field="*{totalTaxPayable}" id="totalTaxPayable" readonly onclick="callTaxFunction()"><br/><br/>
-    <input type="button" onclick="location.href='/'" value="Cancel">&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="submit" value="Pay Tax">
+    <input type="button" onclick="location.href='/'" th:value="#{cancel}">&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" th:value="#{payTax}">
 </form>
 <script>
 function callTaxFunction() {
